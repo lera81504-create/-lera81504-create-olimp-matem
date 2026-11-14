@@ -6,6 +6,8 @@ const els = {
   tabs: document.querySelectorAll(".nav__btn"),
   tabSections: document.querySelectorAll(".tab"),
   headerStats: document.getElementById("headerStats"),
+  headerDayStreak: document.getElementById("headerDayStreak"),
+  dayToast: document.getElementById("dayToast"),
   topicSelect: document.getElementById("topicSelect"),
   levelSelect: document.getElementById("levelSelect"),
   startBtn: document.getElementById("startBtn"),
@@ -42,7 +44,41 @@ let seconds = 0;
 /* ---------- Статистика ---------- */
 
 function defaultStats() {
-  return { solvedBy: {}, attempts: 0, solved: 0, streak: 0, bestStreak: 0 };
+  return {
+    solvedBy: {},
+    attempts: 0,
+    solved: 0,
+    streak: 0,
+    bestStreak: 0,
+    lastVisit: null,
+    dayStreak: 0,
+    bestDayStreak: 0
+  };
+}
+
+function localDateKey(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function updateDayStreak() {
+  const today = localDateKey(new Date());
+  if (stats.lastVisit === today) return;
+
+  const yesterday = localDateKey(new Date(Date.now() - 24 * 60 * 60 * 1000));
+  stats.dayStreak = stats.lastVisit === yesterday ? stats.dayStreak + 1 : 1;
+  stats.bestDayStreak = Math.max(stats.bestDayStreak, stats.dayStreak);
+  stats.lastVisit = today;
+  saveStats();
+
+  els.dayToast.textContent =
+    stats.dayStreak === 1
+      ? "🔥 Первый день тренировки — серия начата!"
+      : `🔥 Вы тренируетесь ${stats.dayStreak} дней подряд!`;
+  showEl(els.dayToast);
+  setTimeout(() => hideEl(els.dayToast), 5000);
 }
 
 function loadStats() {
@@ -72,6 +108,9 @@ function renderStats() {
     ? Math.round((stats.solved / stats.attempts) * 100) + "%"
     : "—";
   els.headerStats.textContent = `Решено: ${stats.solved} · Серия: ${stats.streak}`;
+  els.headerDayStreak.textContent = `🔥 ${stats.dayStreak}`;
+  els.headerDayStreak.hidden = stats.dayStreak === 0;
+  els.headerDayStreak.title = `Дней подряд: ${stats.dayStreak} · Рекорд: ${stats.bestDayStreak}`;
   els.statSolved.textContent = stats.solved;
   els.statAttempts.textContent = stats.attempts;
   els.statAccuracy.textContent = accuracy;
@@ -302,4 +341,6 @@ els.resetBtn.addEventListener("click", () => {
 });
 
 /* ---------- Инициализация ---------- */
+renderStats();
+updateDayStreak();
 renderStats();

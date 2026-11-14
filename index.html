@@ -18,7 +18,10 @@
         <button class="nav__btn" data-tab="catalog">Каталог задач</button>
         <button class="nav__btn" data-tab="about">О проекте</button>
       </nav>
-      <div class="header__stats" id="headerStats">Решено: 0 · Серия: 0</div>
+      <div class="header__stats">
+        <span class="day-streak" id="headerDayStreak" hidden>🔥 0</span>
+        <span id="headerStats">Решено: 0 · Серия: 0</span>
+      </div>
     </div>
   </header>
 
@@ -46,6 +49,8 @@
               <option value="combinatorics">Комбинаторика</option>
               <option value="geometry">Геометрия</option>
               <option value="logic">Логика</option>
+              <option value="invariants">Инварианты</option>
+              <option value="graphs">Графы</option>
             </select>
           </label>
 
@@ -134,8 +139,12 @@
           <p>Сайт считает количество решённых задач, точность и серию правильных ответов. Данные хранятся локально в вашем браузере.</p>
         </div>
         <div class="about-card">
+          <h3>🔥 Огонёк посещений</h3>
+          <p>Заходите каждый день — огонёк покажет, сколько дней подряд вы тренируетесь. Пропустите день, и серия сгорит.</p>
+        </div>
+        <div class="about-card">
           <h3>🚀 Планы</h3>
-          <p>Добавление новых тем: инварианты, графы, диофантовы уравнения, геометрические построения. Режим «олимпиада на время».</p>
+          <p>Добавление новых тем: диофантовы уравнения, геометрические построения. Режим «олимпиада на время».</p>
         </div>
       </div>
     </section>
@@ -146,6 +155,8 @@
       <p>ОлимпМатем · учебный тренажёр по олимпиадной математике</p>
     </div>
   </footer>
+
+  <div class="day-toast" id="dayToast" hidden></div>
 
   <script src="problems.js"></script>
   <script src="app.js"></script>
