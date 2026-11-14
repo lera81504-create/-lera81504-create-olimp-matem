@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ОлимпМатем — подготовка к олимпиадам по математике</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="#" data-tab="trainer">
+        <span class="logo__mark">∑</span>
+        <span class="logo__text">ОлимпМатем</span>
+      </a>
+      <nav class="nav">
+        <button class="nav__btn is-active" data-tab="trainer">Тренажёр</button>
+        <button class="nav__btn" data-tab="catalog">Каталог задач</button>
+        <button class="nav__btn" data-tab="about">О проекте</button>
+      </nav>
+      <div class="header__stats" id="headerStats">Решено: 0 · Серия: 0</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- ===================== ТРЕНажёр ===================== -->
+    <section id="tab-trainer" class="tab is-visible">
+      <div class="hero">
+        <h1>Готовься к олимпиадам по математике</h1>
+        <p>
+          Разбирай задачи школьных и региональных олимпиад, получай подсказки
+          и пошаговые решения. Тренажёр подбирает задачи по уровню и теме.
+        </p>
+      </div>
+
+      <div class="trainer-layout">
+        <aside class="panel trainer-controls">
+          <h2 class="panel__title">Настройки тренировки</h2>
+
+          <label class="field">
+            <span class="field__label">Тема</span>
+            <select id="topicSelect">
+              <option value="all">Все темы</option>
+              <option value="algebra">Алгебра</option>
+              <option value="numberTheory">Теория чисел</option>
+              <option value="combinatorics">Комбинаторика</option>
+              <option value="geometry">Геометрия</option>
+              <option value="logic">Логика</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Уровень</span>
+            <select id="levelSelect">
+              <option value="all">Любой</option>
+              <option value="1">Базовый (школьный этап)</option>
+              <option value="2">Средний (муниципальный)</option>
+              <option value="3">Сложный (региональный)</option>
+            </select>
+          </label>
+
+          <button class="btn btn--primary btn--block" id="startBtn">Начать тренировку</button>
+          <button class="btn btn--ghost btn--block" id="randomBtn">Случайная задача</button>
+
+          <div class="progress-card">
+            <h3>Ваш прогресс</h3>
+            <div class="progress-row"><span>Решено задач</span><b id="statSolved">0</b></div>
+            <div class="progress-row"><span>Попыток</span><b id="statAttempts">0</b></div>
+            <div class="progress-row"><span>Точность</span><b id="statAccuracy">—</b></div>
+            <div class="progress-row"><span>Лучшая серия</span><b id="statBestStreak">0</b></div>
+            <button class="btn btn--danger btn--block btn--small" id="resetBtn">Сбросить прогресс</button>
+          </div>
+        </aside>
+
+        <div class="trainer-main">
+          <div class="problem-card" id="problemCard">
+            <div class="problem-card__meta">
+              <span class="tag" id="problemTopic">Тема</span>
+              <span class="tag tag--level" id="problemLevel">Уровень</span>
+              <span class="timer" id="problemTimer">00:00</span>
+            </div>
+            <div class="problem-card__text" id="problemText">
+              Выберите тему и нажмите «Начать тренировку».
+            </div>
+
+            <div class="answer-row" id="answerRow" hidden>
+              <input type="text" id="answerInput" placeholder="Ваш ответ" autocomplete="off" />
+              <button class="btn btn--primary" id="checkBtn">Проверить</button>
+            </div>
+
+            <div class="feedback" id="feedback" hidden></div>
+
+            <div class="problem-card__actions">
+              <button class="btn btn--ghost" id="hintBtn">Подсказка</button>
+              <button class="btn btn--ghost" id="solutionBtn">Показать решение</button>
+              <button class="btn btn--primary" id="nextBtn">Следующая задача</button>
+            </div>
+
+            <div class="hint-box" id="hintBox" hidden>
+              <h4>Подсказка</h4>
+              <p id="hintText"></p>
+            </div>
+
+            <div class="solution-box" id="solutionBox" hidden>
+              <h4>Решение</h4>
+              <p id="solutionText"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== КАТАЛОГ ===================== -->
+    <section id="tab-catalog" class="tab">
+      <h1 class="page-title">Каталог задач</h1>
+      <p class="page-subtitle">Все задачи тренажёра по темам. Нажмите на задачу, чтобы открыть её в тренажёре.</p>
+      <div id="catalogList" class="catalog"></div>
+    </section>
+
+    <!-- ===================== О ПРОЕКТЕ ===================== -->
+    <section id="tab-about" class="tab">
+      <h1 class="page-title">О проекте</h1>
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>🎯 Для кого</h3>
+          <p>Для школьников 5–11 классов, готовящихся к школьному, муниципальному и региональному этапам Всероссийской олимпиады по математике.</p>
+        </div>
+        <div class="about-card">
+          <h3>🧩 Как заниматься</h3>
+          <p>Решайте задачу сами минимум 10–15 минут. Только после этого открывайте подсказку, а решение — в крайнем случае. После разбора обязательно решите следующую задачу той же темы.</p>
+        </div>
+        <div class="about-card">
+          <h3>📈 Как устроен прогресс</h3>
+          <p>Сайт считает количество решённых задач, точность и серию правильных ответов. Данные хранятся локально в вашем браузере.</p>
+        </div>
+        <div class="about-card">
+          <h3>🚀 Планы</h3>
+          <p>Добавление новых тем: инварианты, графы, диофантовы уравнения, геометрические построения. Режим «олимпиада на время».</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>ОлимпМатем · учебный тренажёр по олимпиадной математике</p>
+    </div>
+  </footer>
+
+  <script src="problems.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
